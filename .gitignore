@@ -1,0 +1,5 @@
+Library/
+.vsconfig
+.vs/
+Assembly-CSharp.csproj
+SlimeRPG.sln
