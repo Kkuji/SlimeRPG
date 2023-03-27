@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -57,6 +58,7 @@ public class Slime : MonoBehaviour, IDamageable
         {
             _healthBar.SetActive(false);
             gameObject.SetActive(false);
+            SceneManager.LoadScene("Menu");
         }
     }
 
