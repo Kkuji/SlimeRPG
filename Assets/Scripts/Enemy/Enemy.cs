@@ -7,9 +7,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private GameObject _healthBarObjectPrefab;
     [SerializeField] private GameObject _healthText;
     [SerializeField] private float _attackFrequency;
-    [SerializeField] private float _maxHealth;
     [SerializeField] private float _speed;
-    [SerializeField] private float _damage;
 
     private GameObject _healthBarObject;
     private bool _collidedSlime = false;
@@ -18,6 +16,8 @@ public class Enemy : MonoBehaviour, IDamageable
     private Rigidbody _rigidbody;
     private Image _healthBar;
 
+    [HideInInspector] public float _maxHealth;
+    [HideInInspector] public float _damage;
     [HideInInspector] public Slime slime;
 
     private void Start()
@@ -51,7 +51,6 @@ public class Enemy : MonoBehaviour, IDamageable
     public void GetDamage(float damage)
     {
         _currentHealth -= damage;
-
         InstantiateHealthText(damage);
 
         CheckHealthBar();
@@ -60,11 +59,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void CheckIsDead()
     {
-        if (_currentHealth < 1)
+        if (_currentHealth < 0)
         {
-            slime.AddPoints();
-            Destroy(_healthBarObject);
-            Destroy(gameObject);
+            Die();
         }
     }
 
@@ -103,6 +100,13 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         _healthBar.fillAmount = Mathf.Clamp(_currentHealth / _maxHealth, 0, 1f);
+    }
+
+    private void Die()
+    {
+        slime.AddPoints();
+        Destroy(_healthBarObject);
+        Destroy(gameObject);
     }
 
     private void CreateHealthBar()

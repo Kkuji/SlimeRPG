@@ -7,6 +7,9 @@ public class SlimeUpgrader : MonoBehaviour
 {
     [SerializeField] private GameObject[] _upgradeButtons = new GameObject[3];
     [SerializeField] private int _stepIncreasePrice;
+    [SerializeField] private float _powerMultiplier;
+    [SerializeField] private float _speedMultiplier;
+    [SerializeField] private float _healthMultiplier;
 
     private int[] _upgradePrices = new int[3];
 
@@ -43,7 +46,7 @@ public class SlimeUpgrader : MonoBehaviour
     {
         UpdatePoints(0);
 
-        float longDamage = _slimeShooting.damage * 1.2f;
+        float longDamage = _slimeShooting.damage * _powerMultiplier;
         _slimeShooting.damage = (float)(Math.Round((double)longDamage, 2));
     }
 
@@ -51,7 +54,7 @@ public class SlimeUpgrader : MonoBehaviour
     {
         UpdatePoints(1);
 
-        float longSpeed = _slimeShooting.shootSpeed * 1.1f;
+        float longSpeed = _slimeShooting.shootSpeed * _speedMultiplier;
         _slimeShooting.shootSpeed = (float)(Math.Round((double)longSpeed, 2));
     }
 
@@ -59,7 +62,7 @@ public class SlimeUpgrader : MonoBehaviour
     {
         UpdatePoints(2);
 
-        float longHealth = _slime.maxHealth * 1.1f;
+        float longHealth = _slime.maxHealth * _healthMultiplier;
         _slime.maxHealth = (float)(Math.Round((double)longHealth, 2));
     }
 

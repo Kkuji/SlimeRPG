@@ -114,8 +114,8 @@ MonoBehaviour:
   _healthBarObjectPrefab: {fileID: 8729158550639564757, guid: 2652121931d0e564aa60a9f1e1382cb6, type: 3}
   _healthText: {fileID: 4492053876677907685, guid: ff10e843f52c9164fa6ba37d958de01f, type: 3}
   _attackFrequency: 1
-  _maxHealth: 3
   _speed: 0.4
+  _maxHealth: 3
   _damage: 1
   slime: {fileID: 0}
 --- !u!54 &4325531989318854656

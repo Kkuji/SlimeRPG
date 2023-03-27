@@ -20,6 +20,7 @@ public class Slime : MonoBehaviour, IDamageable
     private void Awake()
     {
         _slimeShooting = GetComponent<SlimeShooting>();
+
         _slimeShooting.StartMovingAction += WaveEnded;
         _slimeShooting.StopMovingAction += WaveStarted;
     }
@@ -52,7 +53,7 @@ public class Slime : MonoBehaviour, IDamageable
 
     public void CheckIsDead()
     {
-        if (_currentHealth < 1)
+        if (_currentHealth < 0)
         {
             _healthBar.SetActive(false);
             gameObject.SetActive(false);
@@ -63,15 +64,25 @@ public class Slime : MonoBehaviour, IDamageable
     {
         _currentHealth = maxHealth;
         _healthBar.GetComponentInChildren<Image>().fillAmount = Mathf.Clamp(_currentHealth / maxHealth, 0, 1f);
-        _canMove = true;
         _pointsForCube++;
-        _animator.SetBool("Move", true);
+        SetWaveEndedDefaults(true);
     }
 
     private void WaveStarted()
     {
-        _canMove = false;
-        _animator.SetBool("Move", false);
+        SetWaveEndedDefaults(false);
+    }
+
+    private void SetWaveEndedDefaults(bool condition)
+    {
+        _canMove = condition;
+        _animator.SetBool("Move", condition);
+    }
+
+    private void OnDestroy()
+    {
+        _slimeShooting.StartMovingAction -= WaveEnded;
+        _slimeShooting.StopMovingAction -= WaveStarted;
     }
 
     public void MoveHealthBar()

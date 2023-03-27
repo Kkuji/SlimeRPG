@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector] public float damage;
+    public float damage;
 
     private void OnTriggerEnter(Collider other)
     {

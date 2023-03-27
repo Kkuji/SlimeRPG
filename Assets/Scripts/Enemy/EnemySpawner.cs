@@ -7,11 +7,15 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _enemyDistanceXAddSpawn;
     [SerializeField] private float _enemyDistanceYAddSpawn;
     [SerializeField] private float _enemyDistanceXSpawn;
+    [SerializeField] private float _enemyPerkMultiplier;
     [SerializeField] private int _amountEnemies;
     [SerializeField] private GameObject _enemyObject;
     [SerializeField] private GameObject _slimeObject;
 
     private List<GameObject> _enemies = new();
+    private Enemy _enemyScript;
+    private float _enemyDamage;
+    private float _enemyMaxHealth;
     private SlimeShooting _slimeShooting;
     private Slime _slime;
 
@@ -19,6 +23,11 @@ public class EnemySpawner : MonoBehaviour
     {
         _slimeShooting = _slimeObject.GetComponent<SlimeShooting>();
         _slimeShooting.EnemiesDiedAction += SpawnEnemies;
+
+        _enemyScript = _enemyObject.GetComponent<Enemy>();
+
+        _enemyDamage = _enemyScript._damage;
+        _enemyMaxHealth = _enemyScript._maxHealth;
     }
 
     private void Start()
@@ -29,10 +38,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
+        _enemyDamage *= _enemyPerkMultiplier;
+        _enemyMaxHealth *= _enemyPerkMultiplier;
+
         for (int i = 0; i < _amountEnemies; i++)
         {
             SpawnEnemy();
         }
+
         _slimeShooting.SetEnemies(_enemies);
     }
 
@@ -40,6 +53,10 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject newEnemy = Instantiate(_enemyObject, GetRandomVectorSpawn(), Quaternion.identity);
         newEnemy.GetComponent<Enemy>().slime = _slime;
+        Enemy currentEnemyScript = newEnemy.GetComponent<Enemy>();
+
+        currentEnemyScript._damage = (float)(Math.Round((double)_enemyDamage, 2));
+        currentEnemyScript._maxHealth = (float)(Math.Round((double)_enemyMaxHealth, 2));
 
         _enemies.Add(newEnemy);
     }
